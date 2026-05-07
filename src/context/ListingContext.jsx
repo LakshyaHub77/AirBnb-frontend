@@ -23,10 +23,12 @@ function ListingContext({children}) {
     let [city,setCity]=useState("")
     let [landmark,setLandmark]=useState("")
     let [adding,setAdding]=useState(false)
+    let [updating,setUpdating]=useState(false)
+    let [deleting,setDeleting]=useState(false)
     let [category,setCategory]=useState("")
     let [listingData,setListingData]=useState([])
     let [newListData,setnewListData]=useState([])
-
+let [cardDetails,setCardDetails]=useState(null)
 let {serverUrl}=useContext(authDataContext)
 const handleAddListing=async()=>{
     setAdding(true)
@@ -68,7 +70,20 @@ setbackendImage3(null)
     }
 }
 
-
+const handleViewCard=async(id)=>{
+    try {
+        let result=await axios.get(serverUrl+`/api/listing/findlistingbyid/${id}`,{withCredentials:true})
+        console.log('====================================');
+        console.log(result);
+        setCardDetails(result.data)
+        console.log('====================================');
+        navigate("/viewcard")
+    } catch (error) {
+        console.log('====================================');
+        console.log(error);
+        console.log('====================================');
+    }
+}
 
 const getListing=async()=>{
     try {
@@ -83,15 +98,15 @@ console.log(result.data);
 }
 useEffect(()=>{
 getListing()
-},[adding])
+},[adding,updating,deleting])
 
 
 
     let value={
 title,setTitle,description,setDescription,frontEndImage1,setfrontEndImage1,frontEndImage2,setfrontEndImage2,frontEndImage3,setfrontEndImage3,backendImage1,setbackendImage1,backendImage2,setbackendImage2,backendImage3,setbackendImage3,
-rent,setRent,city,setCity,landmark,newListData,setnewListData,setLandmark,category,setCategory,handleAddListing,adding,setAdding,listingData,setListingData,getListing
+rent,setRent,city,setCity,landmark,newListData,setnewListData,setLandmark,category,setCategory,handleAddListing,adding,setAdding,listingData,setListingData,getListing,
 
-
+handleViewCard,cardDetails,setCardDetails,updating,setUpdating,deleting,setDeleting
 
     }
   return (

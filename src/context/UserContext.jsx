@@ -25,7 +25,8 @@ useEffect(()=>{
 
 let value={
 userData, 
-setUserData
+setUserData,
+getcurrentUser
 }
 
   return (

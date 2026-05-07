@@ -8,26 +8,30 @@ import ListingPage2 from "./pages/ListingPage2.jsx";
 import ListingPage3 from "./pages/ListingPage3.jsx";
 import { useContext } from "react";
 import { userDataContext } from "./context/UserContext.jsx";
+import MyListing from "./pages/MyListing.jsx";
+import ViewCard from "./pages/ViewCard.jsx";
+import Mybooking from "./pages/Mybooking.jsx";
 
-
+const AppContent = () => {
+  const { userData } = useContext(userDataContext);  // ✅ NOW WORKS!
+  
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<SignUp />} />
+      <Route path="/listingpage1" element={userData ? <ListingPage1 /> : <Navigate to="/" />} />
+      <Route path="/listingpage2" element={userData ? <ListingPage2 /> : <Navigate to="/" />} />
+      <Route path="/listingpage3" element={userData ? <ListingPage3 /> : <Navigate to="/" />} />
+      <Route path="/mylisting" element={userData ? <MyListing /> : <Navigate to="/" />} />
+      <Route path="/viewcard" element={userData ? <ViewCard /> : <Navigate to="/" />} />
+      <Route path="/mybooking" element={userData ? <Mybooking /> : <Navigate to="/" />} />
+    </Routes>
+  );
+};
 
 const App = () => {
-  let {userData}=useContext(userDataContext)
-  return (
-    <>
-      <Routes>
-        <Route path="/" element={<Home/>}/>
-        <Route path="/login" element={<Login/>}/>
-        <Route path="/signup" element={<SignUp/>}/>
-        <Route path="/listingpage1"
-         element={userData!=null?<ListingPage1/>:<Navigate to={"/login"}/>}/>
-        <Route path="/listingpage2"
-         element={userData!=null?<ListingPage2/>:<Navigate to={"/login"}/>}/>
-        <Route path="/listingpage3"
-         element={userData!=null?<ListingPage3/>:<Navigate to={"/login"}/>}/>
-      </Routes>
-    </>
-  );
+  return <AppContent />;  // ✅ No Router, no useContext!
 };
 
 export default App;
